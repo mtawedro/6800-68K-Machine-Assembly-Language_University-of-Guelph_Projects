@@ -1,0 +1,35 @@
+
+Source file: KEYTEST.X68
+Assembled on: 17-11-23 at: 18:50:23
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1           0000C001     DUART:    EQU       $C001
+    2           0000001A     ISR:      EQU       $1A
+    3           0000001C     OPR_SET:  EQU       $1C
+    4           0000001E     OPR_CLR:  EQU       $1E
+    5           00000002     SRA:      EQU       2
+    6           00000006     RBA:      EQU       6
+    7                        
+    8  00008000                        ORG       $8000
+    9  00008000 207C0000C001 START:    MOVE.L    #DUART,A0
+   10                        
+   11  00008006 18280002     LOOP:     MOVE.B    SRA(A0),D4
+   12  0000800A 02040001               ANDI.B    #1,D4
+   13  0000800E 67F6                   BEQ       LOOP
+   14  00008010 10280006               MOVE.B    RBA(A0),D0
+   15  00008014 0C000071               CMP.B     #113,D0
+   16  00008018 67000014               BEQ       EXIT
+   17  0000801C 61000004               BSR       OUT681
+   18  00008020 60E4                   BRA       LOOP
+   19                        
+   20  00008022 1140001E     OUT681:   MOVE.B    D0,OPR_CLR(A0)
+   21  00008026 4600                   NOT.B     D0
+   22  00008028 1140001C               MOVE.B    D0,OPR_SET(A0)
+   23  0000802C 4E75                   RTS       
+   24                        
+   25  0000802E 4E4E         EXIT:     TRAP      #14
+   26                        
+   27           00008000               END       START
+
+Lines: 27, Errors: 0, Warnings: 0.

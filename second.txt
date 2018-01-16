@@ -1,0 +1,51 @@
+*-----------------------------------------------------------
+
+* Title      :
+
+* Written by :
+
+* Date       :
+
+* Description:
+
+*-----------------------------------------------------------
+
+    ORG    $8000
+
+START:
+
+    move.w x,-(sp)
+
+    move.w y,-(sp) 
+
+    move.w z,-(sp)
+
+    jsr    solve
+
+    lea    8(sp),sp
+    
+    trap #14
+
+solve 	movem.w  D2-d5, -(sp)
+      	move 16(sp), d5	
+	move 16(sp),d3
+	move 14(sp),d2
+	move 12(sp),d4
+
+	muls d5,d5
+	muls #5,d5
+	muls d3,d2
+	muls#2, d2
+	muls d4,d4
+
+	sub.w d2,d5
+	add.w d5,d4
+
+	move d4,d1
+	movem.w (sp)+,d2-d5
+rts
+org $9000
+x  dc.w 5
+y  dc.w 1
+z  dc.w 2
+   END START

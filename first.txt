@@ -1,0 +1,61 @@
+*-----------------------------------------------------------
+
+* Title      :
+
+* Written by :
+
+* Date       :
+
+* Description:
+
+*-----------------------------------------------------------
+
+    ORG    $8000
+
+START: move.w x,-(sp)  
+
+    	jsr solveQuad
+
+    	lea 2(sp),sp
+
+    	trap #14
+
+
+
+solveQuad   move.w 4(sp),d0
+
+	    muls    d0,d0
+	
+            muls   #5,d0
+
+	    move d0,d2
+	   
+	    move 4(sp), d3
+           
+            muls #2, d3
+    	    
+            sub.w d3,d2
+
+            add.w #6,d2
+           
+            move      d2,d1 
+
+	    rts             
+
+* Put variables and constants here
+
+    org $9000
+
+x   dc.w  1
+
+    END    START        ; last line of source
+
+
+
+*~Font name~Courier New~
+
+*~Font size~10~
+
+*~Tab type~1~
+
+*~Tab size~4~

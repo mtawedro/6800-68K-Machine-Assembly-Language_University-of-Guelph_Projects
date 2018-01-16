@@ -1,0 +1,34 @@
+
+Source file: EIGHTHZ.X68
+Assembled on: 17-11-23 at: 18:38:19
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1           0000C001     DUART:    EQU       $C001
+    2           0000000A     ISR:      EQU       $A
+    3           0000001E     STOP:     EQU       $1E
+    4           0000001C     OPR_SET:  EQU       $1C
+    5           0000001E     OPR_CLR:  EQU       $1E
+    6           00000008     ACR:      EQU       8
+    7           0000000C     CTUR:     EQU       12
+    8           0000000E     CTLR:     EQU       14
+    9           0000001A     OPCR:     EQU       26
+   10           00003840     PRELOAD:  EQU       14400
+   11  00008000                        ORG       $8000
+   12  00008000 207C0000C001 EIHZ:     MOVEA.L   #DUART,A0
+   13  00008006 303C3840               MOVE.W    #PRELOAD,D0
+   14  0000800A 0188000C               MOVEP.W   D0,CTUR(A0)
+   15  0000800E 117C00700008           MOVE.B    #$70,ACR(A0)
+   16                        *MOVE.B #$04,OPCR(A0) 
+   17                        
+   18  00008014 1028000A     LOOP:     MOVE.B    ISR(A0),D0
+   19  00008018 02000008               ANDI.B    #8,D0
+   20  0000801C 67F6                   BEQ       LOOP
+   21  0000801E 4A28001E               TST.B     STOP(A0)
+   22  00008022 1141001C               MOVE.B    D1,OPR_SET(A0)
+   23  00008026 4601                   NOT.B     D1
+   24  00008028 1141001E               MOVE.B    D1,OPR_CLR(A0)
+   25  0000802C 60E6                   BRA       LOOP
+   26           00008000               END       EIHZ
+
+Lines: 26, Errors: 0, Warnings: 0.

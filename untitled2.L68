@@ -1,0 +1,49 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v3.1 April 19, 2005
+Created On: 23/11/2017 6:49:40 PM
+
+00000000  =0000C001                  1  DUART   EQU $C001 
+00000000  =0000001A                  2  ISR     EQU $1A 
+00000000  =0000001C                  3  OPR_SET EQU $1C 
+00000000  =0000001E                  4  OPR_CLR EQU $1E 
+00000000  =00000002                  5  SRA     EQU 2
+00000000  =00000006                  6  RBA     EQU 6
+00000000                             7  
+00008000                             8          ORG $8000
+00008000  207C 0000C001              9  START   MOVE.L #duart,a0
+00008006                            10  
+00008006  1828 0002                 11  LOOP    MOVE.B SRA(A0),D4
+0000800A  0204 0001                 12          ANDI.B  #1,D4
+0000800E  67F6                      13          BEQ LOOP
+00008010  1028 0006                 14          MOVE.B RBA(A0),D0
+00008014  B03C 0071                 15          CMP.B   #113,D0
+00008018  6700 0014                 16          BEQ EXIT
+0000801C  6100 0004                 17          BSR OUT681
+00008020  60E4                      18          BRA LOOP
+00008022                            19  
+00008022  1140 001E                 20  OUT681  MOVE.B D0,OPR_CLR(A0)
+00008026  4600                      21          NOT.B   D0
+00008028  1140 001C                 22          MOVE.B D0,OPR_SET(A0)
+0000802C  4E75                      23          RTS 
+0000802E                            24  
+0000802E  4E4E                      25  EXIT    TRAP #14
+00008030                            26  
+00008030                            27          END START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DUART               C001
+EXIT                802E
+ISR                 1A
+LOOP                8006
+OPR_CLR             1E
+OPR_SET             1C
+OUT681              8022
+RBA                 6
+SRA                 2
+START               8000
